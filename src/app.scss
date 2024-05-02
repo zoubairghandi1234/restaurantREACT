@@ -1,0 +1,12 @@
+/* make the customizations */
+$theme-colors: (
+  'info': #e74c3c,
+  'success': #2ecc71,
+  'danger': teal,
+  'primary': #9000d3,
+  'secondary': #34495e,
+  'bs-body-bg': #212529,
+);
+
+/* import bootstrap to set changes */
+@import '~bootstrap/scss/bootstrap';
