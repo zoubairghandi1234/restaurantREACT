@@ -3,9 +3,18 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import images from "../../constants/images";
 import "./Navbar.css";
+import axios, { setCurrentUser, setCurrentUserToken } from "./../../Axios";
+import toast from "react-hot-toast";
 
-const Navbar = ({ setOpen }) => {
+const Navbar = ({ setOpen, user, setUser }) => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
+  const logout = async () => {
+    const response = await axios.post("/logout");
+    toast.success(response.data.message);
+    setCurrentUser({});
+    setCurrentUserToken(null);
+    setUser({});
+  };
   return (
     <nav className="app__navbar d-flex align-items-center">
       <div className="app__navbar-logo">
@@ -39,9 +48,21 @@ const Navbar = ({ setOpen }) => {
         </li>
       </ul>
       <div className="app__navbar-login">
-        <a href="#" onClick={() => setOpen(true)} className="p__opensans">
-          Log In / Registration
-        </a>
+        {user.name ? (
+          <>
+            <a className="p__opensans">{user.name}</a>
+            <a
+              className="p__opensans text-warning cursor-pointer"
+              onClick={logout}
+            >
+              Logout
+            </a>
+          </>
+        ) : (
+          <a href="#" onClick={() => setOpen(true)} className="p__opensans">
+            Log In / Registration
+          </a>
+        )}
         <div />
         <a href="/" className="p__opensans">
           Book Table
