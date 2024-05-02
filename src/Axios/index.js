@@ -26,3 +26,8 @@ export function setCurrentUserToken(token) {
 export function getCurrentUserToken(token) {
   return localStorage.getItem("AUTH_TOKEN") || null;
 }
+
+export async function getDishes() {
+  const response = await instance.get('/dishes')
+  return response.data.content
+}

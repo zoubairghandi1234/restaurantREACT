@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 import {
@@ -16,11 +16,18 @@ import { Navbar } from "./components";
 import "./app.scss";
 import "./App.css";
 import Modal from "./components/Modal";
-import { getCurrentUser } from "./Axios";
+import { getCurrentUser, getDishes } from "./Axios";
 
 const App = () => {
   const [open, setOpen] = useState(false);
-  const [user, setUser ] = useState(getCurrentUser()) 
+  const [user, setUser ] = useState(getCurrentUser())
+  const [dishes, setDishes] = useState([])
+  useEffect(()=> {
+    const request = async ()=> {
+      setDishes(await getDishes())
+    }
+    request()
+  }, [])
   return (
     <div>
       <Toaster />
@@ -28,7 +35,7 @@ const App = () => {
       <Navbar setOpen={setOpen} user={user} setUser={setUser} />
       <Header />
       <AboutUs />
-      <SpecialMenu />
+      <SpecialMenu items={dishes} />
       <Chef />
       <Intro />
       <Laurels />

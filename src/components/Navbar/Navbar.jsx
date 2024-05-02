@@ -14,7 +14,7 @@ const Navbar = ({ setOpen, user, setUser }) => {
     setCurrentUser({});
     setCurrentUserToken(null);
     setUser({});
-  };
+  }
   return (
     <nav className="app__navbar d-flex align-items-center">
       <div className="app__navbar-logo">
