@@ -3,18 +3,11 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import images from "../../constants/images";
 import "./Navbar.css";
-import axios, { setCurrentUser, setCurrentUserToken } from "./../../Axios";
-import toast from "react-hot-toast";
+import { FaShoppingCart } from "react-icons/fa";
 
-const Navbar = ({ setOpen, user, setUser }) => {
+const Navbar = ({ setOpen, user, setOpenProfile, handleOpenCanvasSidebar, cart}) => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
-  const logout = async () => {
-    const response = await axios.post("/logout");
-    toast.success(response.data.message);
-    setCurrentUser({});
-    setCurrentUserToken(null);
-    setUser({});
-  }
+  
   return (
     <nav className="app__navbar d-flex align-items-center">
       <div className="app__navbar-logo">
@@ -50,12 +43,10 @@ const Navbar = ({ setOpen, user, setUser }) => {
       <div className="app__navbar-login">
         {user.name ? (
           <>
-            <a className="p__opensans">{user.name}</a>
-            <a
-              className="p__opensans text-warning cursor-pointer"
-              onClick={logout}
-            >
-              Logout
+            <a className="p__opensans" onClick={()=> setOpenProfile(true)}>{user.name}</a>
+            <a className="p__opensans" onClick={()=> handleOpenCanvasSidebar()}>
+              <FaShoppingCart />
+              <span style={{ marginLeft: 10 }}>{cart?.length}</span>
             </a>
           </>
         ) : (

@@ -3,6 +3,9 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
   timeout: 5000,
+  headers: {
+    Authorization: `Bearer ${getCurrentUserToken()}`,
+  },
 });
 
 instance.interceptors.request.use(function (config) {
@@ -23,11 +26,25 @@ export function setCurrentUser(user) {
 export function setCurrentUserToken(token) {
   return localStorage.setItem("AUTH_TOKEN", token) || null;
 }
-export function getCurrentUserToken(token) {
+export function getCurrentUserToken() {
   return localStorage.getItem("AUTH_TOKEN") || null;
+}
+export function getCartItems() {
+  if (
+    localStorage.getItem("CART_ITEMS") &&
+    localStorage.getItem("CART_ITEMS")?.length > 20
+  ) {
+    return JSON.parse(localStorage.getItem("CART_ITEMS")) || [];
+  }
+  return [];
+}
+export function setCartItems(items) {
+  if (items) {
+    return localStorage.setItem("CART_ITEMS", JSON.stringify(items));
+  }
 }
 
 export async function getDishes() {
-  const response = await instance.get('/dishes')
-  return response.data.content
+  const response = await instance.get("/dishes");
+  return response.data.content;
 }

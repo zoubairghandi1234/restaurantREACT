@@ -1,28 +1,36 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
+import ButtonWithSpinner from "../Button"
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import * as formik from "formik";
 import * as yup from "yup";
-import Axios, { setCurrentUser, setCurrentUserToken } from "./../../Axios/index";
+import Axios, {
+  setCurrentUser,
+  setCurrentUserToken,
+} from "./../../Axios/index";
 import toast from "react-hot-toast";
 function LoginForm({ setOpen, setCurrentForm, setUser }) {
   const { Formik } = formik;
+  const [busy, setBusy] = useState(false)
   const submit = async (data) => {
+    setBusy(true)
     const response = await Axios.post("/auth/login", data);
     if (response.data.success) {
       toast.success(response.data.message);
-      const token = response.data.content.user.accessToken
-      delete response.data.content.user.accessToken
-      setCurrentUserToken(token)
-      setCurrentUser(response.data.content.user)
-      setUser(response.data.content.user)
+      const token = response.data.content.user.accessToken;
+      delete response.data.content.user.accessToken;
+      setCurrentUserToken(token);
+      setCurrentUser(response.data.content.user);
+      setUser(response.data.content.user);
+      setBusy(false)
       return setOpen(false);
     }
-
+    
     if (!response.data.success) {
       toast.error(response.data.message);
+      setBusy(false)
     }
   };
   const schema = yup.object().shape({
@@ -93,9 +101,9 @@ function LoginForm({ setOpen, setCurrentForm, setUser }) {
                   />
                 </Form.Group>
                 <Col className="d-grid gap-2">
-                  <Button type="submit" className="d-block">
-                    Submit form
-                  </Button>
+                  <ButtonWithSpinner busy={busy}>
+                    <span>Login</span>
+                  </ButtonWithSpinner>
                   <Button
                     type="button"
                     variant="secondary"

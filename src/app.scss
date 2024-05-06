@@ -1,12 +1,24 @@
 /* make the customizations */
 $theme-colors: (
-  'info': #e74c3c,
-  'success': #2ecc71,
-  'danger': teal,
-  'primary': #9000d3,
-  'secondary': #34495e,
-  'bs-body-bg': #212529,
+  "info": #e74c3c,
+  "success": #2ecc71,
+  "danger": #dc3545,
+  "primary": #9000d3,
+  "secondary": #34495e,
+  "bs-body-bg": #212529,
 );
 
 /* import bootstrap to set changes */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+
+.app__navbar-login a {
+  margin: 0 0.5rem !important;
+}
+
+.flex-basis {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+
