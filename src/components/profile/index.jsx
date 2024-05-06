@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProfileDetails from "./ProfileDetails";
-import { Tab, Tabs } from "react-bootstrap";
-import Cart from "../Cart";
-
-function index({ show, setShow, user, setUser }) {
+import { Tab, Table, Tabs } from "react-bootstrap";
+import Button from "../Button";
+import Axios from "./../../Axios";
+import toast from "react-hot-toast";
+function index({orderRequest, orders, show, setShow, user, setUser }) {
+  useEffect(() => {
+    orderRequest();
+  }, []);
+  const cancelOrder = async (id) => {
+    const response = await Axios.post("/orders/cancel", { id });
+    if (response.data.success) {
+      toast.success(response.data.message);
+      orderRequest();
+    }
+  };
   return (
     <>
       {show && (
@@ -29,33 +40,68 @@ function index({ show, setShow, user, setUser }) {
                     setShow={setShow}
                   />
                 </Tab>
-                <Tab eventKey="orders" title="My Orders And History">
-                  <div>
-                    <Item
-                      title="Hello"
-                      image="https://media.istockphoto.com/id/1457433817/photo/group-of-healthy-food-for-flexitarian-diet.jpg?b=1&s=612x612&w=0&k=20&c=V8oaDpP3mx6rUpRfrt2L9mZCD0_ySlnI7cd4nkgGAb8="
-                      price={20}
-                    />
-                    <Item
-                      title="Hello"
-                      image="https://media.istockphoto.com/id/1457433817/photo/group-of-healthy-food-for-flexitarian-diet.jpg?b=1&s=612x612&w=0&k=20&c=V8oaDpP3mx6rUpRfrt2L9mZCD0_ySlnI7cd4nkgGAb8="
-                      price={20}
-                    />
-                    <Item
-                      title="Hello"
-                      image="https://media.istockphoto.com/id/1457433817/photo/group-of-healthy-food-for-flexitarian-diet.jpg?b=1&s=612x612&w=0&k=20&c=V8oaDpP3mx6rUpRfrt2L9mZCD0_ySlnI7cd4nkgGAb8="
-                      price={20}
-                    />
-                    <Item
-                      title="Hello"
-                      image="https://media.istockphoto.com/id/1457433817/photo/group-of-healthy-food-for-flexitarian-diet.jpg?b=1&s=612x612&w=0&k=20&c=V8oaDpP3mx6rUpRfrt2L9mZCD0_ySlnI7cd4nkgGAb8="
-                      price={20}
-                    />
-                  </div>
+                <Tab eventKey="orders" title="Orders">
+                  <Table bordered>
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>value</th>
+                        <th>Status</th>
+                        <th>Order By</th>
+                        <th>Payment Method</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map((el) => {
+                        return (
+                          <tr key={el.id}>
+                            <td
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 5,
+                              }}
+                            >
+                              <span>{el.id}</span>
+                              <img
+                                src={el.orderItems[0].images[0].name}
+                                style={{ width: 50, height: 50 }}
+                              />
+                            </td>
+                            <td>{el.orderItems[0].title}</td>
+                            <td>{el.orderItems.length}</td>
+                            <td>
+                              {parseInt(el.order_value).toLocaleString(
+                                "en-US",
+                                {
+                                  style: "currency",
+                                  currency: "USD",
+                                }
+                              )}
+                            </td>
+                            <td>{el.status}</td>
+                            <td>{el.user.name}</td>
+                            <td>{el.payment_method}</td>
+                            <td>
+                              <Button
+                                onClick={() => cancelOrder(el.id)}
+                                variant="danger"
+                                disabled={!["Pending"].includes(el.status)}
+                                size="sm"
+                              >
+                                Cancel
+                              </Button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
                 </Tab>
-                <Tab eventKey="reservation" title="Reservation">
-
-                </Tab>
+                <Tab eventKey="reservation" title="Reservation"></Tab>
               </Tabs>
             </div>
           </div>
@@ -66,24 +112,3 @@ function index({ show, setShow, user, setUser }) {
 }
 
 export default index;
-
-const Item = ({ title, image, price }) => {
-  return (
-    <div className="d-flex gap-3 w-full bg-white py-2 px-2 rounded justify-content-between align-items-center my-2">
-      <img
-        className="flex-shrink-0"
-        style={{ width: "100px", borderRadius: "5px" }}
-        src={image}
-      />
-      <div className="flex-grow-1">
-        <p style={{ fontSize: "20px", margin: 0, fontWeight: 600 }}>{title}</p>
-        <p style={{ fontSize: "16px", margin: 0, fontWeight: 500 }}>
-          {parseInt(price).toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
-        </p>
-      </div>
-    </div>
-  );
-};

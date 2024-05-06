@@ -41,10 +41,17 @@ export function getCartItems() {
 export function setCartItems(items) {
   if (items) {
     return localStorage.setItem("CART_ITEMS", JSON.stringify(items));
+  }else{
+    localStorage.removeItem('CART_ITEMS')
   }
 }
 
 export async function getDishes() {
   const response = await instance.get("/dishes");
-  return response.data.content;
+  return response.data.content || [];
+}
+
+export async function getMyOrders() {
+  const response = await instance.get("/orders")
+  return response.data
 }

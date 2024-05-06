@@ -41,6 +41,7 @@ export default function Cart({
   handleCloseCanvasSidebar,
   items,
   setCart,
+  orderFetch,
 }) {
   const [openCheckoutForm, setOpenCheckoutForm] = useState(false);
   const removeItem = async (id) => {
@@ -56,9 +57,18 @@ export default function Cart({
     setOpenCheckoutForm(true);
     handleCloseCanvasSidebar();
   };
+  const clearCart = async () => {
+    const response = await Axios.post("/cart/clear");
+    if (response.data.success) {
+      setCart([]);
+      setCartItems([]);
+      toast.success(response.data.message);
+    }
+  };
   return (
     <>
       <CheckoutForm
+        orderFetch={orderFetch}
         show={openCheckoutForm}
         setCart={setCart}
         setShow={setOpenCheckoutForm}
@@ -97,14 +107,25 @@ export default function Cart({
                 currency: "USD",
               })}
             </p>
-            <Button
-              onClick={checkout}
-              disabled={!items?.length}
-              variant="primary"
-              style={{ width: "100%" }}
-            >
-              Checkout
-            </Button>
+            <div className="gap-2 d-flex">
+              <Button
+                onClick={checkout}
+                disabled={!items?.length}
+                variant="primary"
+                style={{ width: "100%" }}
+              >
+                Checkout
+              </Button>
+              <ButtonSpinner
+                className="mt-2"
+                type="button"
+                variant="outline-danger"
+                onClick={clearCart}
+                disabled={items.length === 0}
+              >
+                Clear Cart
+              </ButtonSpinner>
+            </div>
           </div>
         </Offcanvas.Body>
       </Offcanvas>
@@ -120,7 +141,7 @@ const validationSchema = yup.object().shape({
   address: yup.string().required(),
 });
 
-const CheckoutForm = ({ show, setShow, setCart }) => {
+const CheckoutForm = ({ show, setShow, setCart, orderFetch }) => {
   const { Formik } = formik;
   const orderPlace = async (data) => {
     const response = await Axios.post("/cart/order-place", data);
@@ -130,6 +151,7 @@ const CheckoutForm = ({ show, setShow, setCart }) => {
     if (response.data.success) {
       setCart([]);
       setShow(false);
+      orderFetch();
       toast.success(response.data.message);
     }
   };
