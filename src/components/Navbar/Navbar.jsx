@@ -5,41 +5,43 @@ import images from "../../constants/images";
 import "./Navbar.css";
 import { FaShoppingCart } from "react-icons/fa";
 
-const Navbar = ({ setOpen, user, setOpenProfile, handleOpenCanvasSidebar, cart}) => {
+const Navbar = ({ setOpen, user, setOpenProfile, handleOpenCanvasSidebar, cart, setOpenReservation}) => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
-  
   return (
-    <nav className="app__navbar d-flex align-items-center">
-      <div className="app__navbar-logo">
-        <img src={images.gericht} alt="app__logo" />
+    <div className="nav_nav">
+      <nav className="app__navbar d-flex align-items-center">
+      <div className="app__navbar-logo" >
+        <img src={images.rest} alt="app__logo"/>
       </div>
-      <ul className="app__navbar-links">
-        <li className="p__opensans">
-          <a className="text-decoration-none text-white" href="#home">
-            Home
-          </a>
-        </li>
-        <li className="p__opensans">
-          <a className="text-decoration-none text-white" href="#about">
-            About
-          </a>
-        </li>
-        <li className="p__opensans">
-          <a className="text-decoration-none text-white" href="#menu">
-            Menu
-          </a>
-        </li>
-        <li className="p__opensans">
-          <a className="text-decoration-none text-white" href="#awards">
-            Awards
-          </a>
-        </li>
-        <li className="p__opensans">
-          <a className="text-decoration-none text-white" href="#contact">
-            Contact
-          </a>
-        </li>
-      </ul>
+      <div className="test">
+        <ul className="app__navbar-links">
+          <li className="p__opensans">
+            <a className="text-decoration-none " href="#home">
+              Home
+            </a>
+          </li>
+          <li className="p__opensans">
+            <a className="text-decoration-none " href="#about">
+              About
+            </a>
+          </li>
+          <li className="p__opensans">
+            <a className="text-decoration-none " href="#menu">
+              Menu
+            </a>
+          </li>
+          <li className="p__opensans">
+            <a className="text-decoration-none " href="#awards">
+              Awards
+            </a>
+          </li>
+          <li className="p__opensans">
+            <a className="text-decoration-none " href="#contact">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </div>
       <div className="app__navbar-login">
         {user.name ? (
           <>
@@ -55,7 +57,7 @@ const Navbar = ({ setOpen, user, setOpenProfile, handleOpenCanvasSidebar, cart})
           </a>
         )}
         <div />
-        <a href="/" className="p__opensans">
+        <a href="#" onClick={()=> setOpenReservation(true)} className="p__opensans">
           Book Table
         </a>
       </div>
@@ -103,6 +105,7 @@ const Navbar = ({ setOpen, user, setOpenProfile, handleOpenCanvasSidebar, cart})
         )}
       </div>
     </nav>
+    </div>
   );
 };
 

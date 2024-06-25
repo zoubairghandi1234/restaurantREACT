@@ -1,62 +1,95 @@
-.app__navbar {
+.nav_nav{
     width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+
+}
+
+.app__navbar {
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--color-black);
-
-    padding: 1rem 2rem;
-}
+    background: transparent;
+    padding: 1rem 4rem;
+    z-index: 20;
+} 
 
 .app__navbar-logo {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    z-index: 10;
 }
 
 .app__navbar-logo img {
-    width: 150px;
+    width: 140px;
+    
 }
 
+ 
 .app__navbar-links {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     list-style: none;
-}
-
-.app__navbar-links li {
-    margin: 0 1rem;
-    cursor: pointer;
-}
-
-.app__navbar-links li:hover {
-    color: var(--color-grey);
-}
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    z-index: 10;
+  }
+  
+  .app__navbar-links li {
+    margin-right: 20px;
+    z-index: 10;
+  }
+  
+  .app__navbar-links a {
+    text-decoration: none;
+    color: #ffffff; /* white text */
+    transition: color 0.2s ease;
+    z-index: 10;
+  }
+  
+  .app__navbar-links a:hover {
+    color: rgb(255, 255, 255);
+  }
+  
+  .p__opensans a{
+    font-family: "Playwrite NZ", cursive;
+    font-size: 20px;
+  }
 
 .app__navbar-login {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    box-sizing: border-box;
 }
 
-.app__navbar-login a {
-    margin: 0 1rem;
+a.p__opensans { 
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(226,143,17,1) 0%, rgba(176,11,0,1) 100%, rgba(226,100,9,1) 100%);
+    color: #dfdfdf; /* white text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
     text-decoration: none;
-    transition: .5s ease;
-}
+    font-family: "Playwrite NZ", cursive;
+    font-size: .6rem;
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 7px 29px 0px;
+    transition: all .5s;
+    z-index: 10;
+  }
+  
+  a.p__opensans:hover {
+    background-color: #ffffff; /* darker gray background on hover */
+    color: black;
+    background: white;
+  }
 
-.app__navbar-login a:hover {
-    border-bottom: 1px solid var(--color-golden);
-}
 
-.app__navbar-login div {
-    width: 1px;
-    height: 30px;
-    background: var(--color-grey);
-}
 
 .app__navbar-smallscreen {
     display: none;
@@ -83,6 +116,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
+    z-index: 10;
 }
 
 .app__navbar-smallscreen_links {
@@ -96,10 +130,12 @@
     font-size: 2rem;
     text-align: center;
     font-family: var(--font-base);
+    z-index: 10;
 }
 
 .app__navbar-smallscreen_links li:hover {
     color: var(--color-white);
+    z-index: 10;
 }
 
 @media screen and (min-width: 2000px) {

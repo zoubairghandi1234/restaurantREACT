@@ -256,7 +256,7 @@ const CheckoutForm = ({ show, setShow, setCart, orderFetch }) => {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
-              <ButtonSpinner>Place Now</ButtonSpinner>
+              <ButtonSpinner>Confirm Now</ButtonSpinner>
             </Form>
           )}
         </Formik>

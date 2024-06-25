@@ -4,7 +4,15 @@ import { Tab, Table, Tabs } from "react-bootstrap";
 import Button from "../Button";
 import Axios from "./../../Axios";
 import toast from "react-hot-toast";
-function index({orderRequest, orders, show, setShow, user, setUser }) {
+function index({
+  orderRequest,
+  orders,
+  show,
+  setShow,
+  user,
+  setUser,
+  bookings,
+}) {
   useEffect(() => {
     orderRequest();
   }, []);
@@ -19,7 +27,7 @@ function index({orderRequest, orders, show, setShow, user, setUser }) {
     <>
       {show && (
         <div className="modal-container-raw">
-          <div className="modal-raw" style={{ width: "50%" }}>
+          <div className="modal-raw" style={{ width: "80%" }}>
             <div className="modal-header-raw d-flex justify-content-between align-items-center">
               <h2>Profile</h2>
               <span className="text-white" onClick={() => setShow(false)}>
@@ -98,10 +106,52 @@ function index({orderRequest, orders, show, setShow, user, setUser }) {
                           </tr>
                         );
                       })}
+                      {orders.length === 0 && (
+                        <tr>
+                          <td colSpan={8} className="text-center">
+                            Empty
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                 </Tab>
-                <Tab eventKey="reservation" title="Reservation"></Tab>
+                <Tab eventKey="reservation" title="Reservation">
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date Time</th>
+                        <th>Table</th>
+                        <th>Booked By</th>
+                        <th>No Adults</th>
+                        <th>No Child</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookings.map((el, index) => (
+                        <tr key={el.id}>
+                          <td>{index + 1}</td>
+                          <td>{el.name}</td>
+                          <td>{el.email}</td>
+                          <td>{el.phone}</td>
+                          <td>{el.date_time}</td>
+                          <td>{el.table}</td>
+                          <td>{el.user_name}</td>
+                          <td>{el.no_adults}</td>
+                          <td>{el.no_child}</td>
+                          <td>
+                            <span className={el.status === 'Accepted' ? 'text-success': 'text-danger'}>{el.status}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Tab>
               </Tabs>
             </div>
           </div>

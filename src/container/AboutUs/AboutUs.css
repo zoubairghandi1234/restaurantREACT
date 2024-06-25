@@ -1,3 +1,4 @@
+
 .app__aboutus {
     position: relative;
 }
@@ -16,16 +17,29 @@
 .app__aboutus-content {
     width: 100%;
     z-index: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    
 }
 
 .app__aboutus-content_about {
-    flex: 1;
+  
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-
-    text-align: right;
+    width: 400px;
+    text-align: center;
+    font-family: "Playwrite NZ", cursive;
+    
+}
+.app__aboutus-content_about h1{
+  
+    font-family: "Playwrite NZ", cursive;
+    font-size: 2.1rem;
+    
 }
 
 .app__aboutus-content_knife {
@@ -37,13 +51,20 @@
 }
 
 .app__aboutus-content_history {
-    flex: 1;
+    
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    width: 400px;
+    text-align: center;
 
-    text-align: left;
+}
+.app__aboutus-content_history h1{
+  
+    font-family: "Playwrite NZ", cursive;
+    font-size: 2.1rem;
+    
 }
 
 .app__aboutus-content_about p,
